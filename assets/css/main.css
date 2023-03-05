@@ -17,7 +17,7 @@ Top Nav
     flex-direction: row;
     justify-content: flex-end;
     height: 64px;
-    background-color: turquoise;
+    background-color: rgb(171, 230, 224);
     align-items: center;
     padding-left: 16px;
     padding-right: 16px;
@@ -51,11 +51,14 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+
 }
 
 main aside {
     display: flex;
     flex-direction: column;
+
+
 }
 
 /****************************
@@ -66,7 +69,10 @@ Recherche
     flex-direction: row;
     padding: 20px 20px;
     width: 100vw;
-    margin-top: 10px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 10px;
+    /* justify-content: center;*/
 
 }
 
@@ -74,13 +80,29 @@ input[type='search'] {
     width: 75%;
     margin-right: 15px;
     padding: 10px;
+    border-radius: 10px;
+    border: 1px solid gray;
+
 }
 
-button {}
+::placeholder {
+    color: gray;
+    font-size: 16px;
+}
+
+button {
+    border-radius: 10px;
+    border: transparent;
+    padding: 10px;
+    margin-right: 30px;
+}
 
 /********************
 Section filtre
 **********************/
+.controle * {
+    margin-bottom: 5px;
+}
 
 .filtre {
     padding: 16px 16px;
@@ -95,7 +117,6 @@ Section filtre
     display: flex;
     flex-direction: column;
 
-    /*margin-left:16px;*/
 }
 
 .filtre ul {
@@ -125,7 +146,7 @@ Section filtre
 }
 
 /**************************
-Section catalogue
+Section catalogue COLUMNS
 ******************************/
 .catalogue {
     padding: 16px 16px;
@@ -137,23 +158,51 @@ Section catalogue
 }
 
 .catalogue .carte {
-    height: 500px;
-    overflow-y: hidden;
-}
+    border: rgb(162, 155, 155) 1px solid;
+    padding: 15px;
+    margin-bottom: 25px;
+    margin-right: 20px;
+    border-radius: 10px;
+    max-width: 250px;
 
-.catalogue .carte .contenu {
-    text-overflow: ellipsis;
 }
 
 .catalogue .carte header {
-    position: absolute;
     max-width: 200px;
 }
 
-.catalogue .carte img {
-    object-fit: cover;
+/****************************
+SECTION CATALOGUE ROWS
+****************************/
+.catalogueRow {
+    margin-left: 20px;
+    box-sizing: border-box;
+    flex: 1;
     max-width: 100%;
-    opacity: .2;
+}
+
+.catalogueRow .carte {
+
+    display: flex;
+    flex-direction: row;
+    gap: 35px;
+    border: rgb(162, 155, 155) 1px solid;
+    padding: 25px;
+    margin-bottom: 25px;
+    margin-right: 20px;
+    border-radius: 10px;
+}
+
+.catalogueRow .carte header {
+    min-width: 35%;
+}
+
+.catalogueRow .carte .contenu {
+    min-width: 40%;
+}
+
+.catalogueRow .action {
+    align-self: center;
 }
 
 /************************
@@ -162,4 +211,10 @@ Utilitaire
 
 .filler {
     flex-grow: 1;
+}
+
+.icones span {
+    display: block;
+    cursor: pointer;
+
 }
