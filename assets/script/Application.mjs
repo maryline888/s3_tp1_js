@@ -13,30 +13,72 @@ export default class Application {
     #Tri;
 
     constructor() {
-        const domCatalogue = document.querySelector(".catalogue");
-        this.#catalogue = new Catalogue(domCatalogue);
-
-        // convertion de la dateIso en date lisible : 
-        const dateFinProduction = "/Date(1291352400000-0500)\\/";
-        const timestamp = parseInt(dateFinProduction.match(/\d+/)[0], 10);
-        const date = new Date(timestamp);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        console.log(date.toLocaleDateString('fr-FR', options));
-        // doit rendre le tout dynamique
 
 
-        // oeuvresMtl.forEach((oeuvre) => {
-        //     oeuvre.dureeHeure = parseInt(oeuvre.running_time / 60) + "h" + parseInt(oeuvre.running_time % 60).toString().padStart(2, '0');
-        // })
-
-        this.#catalogue.setOeuvres(oeuvresMtl);
+        const domCatalogue = document.querySelector("#catalogue");
+        this.#catalogue = new Catalogue(domCatalogue, oeuvresMtl);
 
         this.#catalogue.afficher();
 
+        /** pour gerer laffichage en liste ou en grille */
+        const divIcones = document.querySelector(".icones");
+        divIcones.addEventListener("click", this.gererAffichage.bind(this));
+
+        /** pour gerer laffichage du detail de chaques oeuvres */
+        this.#catalogue.domCatalogue.childNodes.forEach(element => {
+
+            element.addEventListener("click", this.#catalogue.afficherDialogue.bind(this));
+        });
+
+        /** pour gerer les filtres */
         let sectionFiltre = document.querySelector(".liste-categorie");
         this.#filtre = new Filtre(sectionFiltre, oeuvresMtl);
         sectionFiltre.addEventListener("click", this.appliquerFiltre.bind(this));
+
+        this.modale;
+        let gabaritDetail;
+
+        /** pour gerer la recherche */
+
+
+        /** pour gerer la boite dialogue */
+        // const modaleDetail = document.getElementById("modale");
+        // const modeleDetail = document.getElementById("modeleDetail");
+        // const btnfermer = document.querySelector('.btnModale');
+        // btnfermer.onClick('click').close();
+
     }
+
+
+
+    getCatalogue() {
+        return this.#catalogue;
+    }
+
+    /**
+     * pour gerer laffichage en liste ou en grille 
+     * ne fonctionne pas 
+     * 
+     */
+    gererAffichage(event) {
+
+        if (event.target.classList.contains('view_list')) {
+            console.log("liste-click");
+
+            this.#catalogue.domCatalogue.classList.add('catalogueRow');
+            this.#catalogue.domCatalogue.classList.remove('catalogue');
+
+        } else if (event.target.classList.contains('view_grid')) {
+            this.#catalogue.domCatalogue.classList.remove('catalogueRow');
+            this.#catalogue.domCatalogue.classList.add('catalogue');
+
+            console.log("grid-click");
+
+        }
+        //  this.#catalogue.setAffichage(choixAffichage);
+        this.#catalogue.afficher();
+    }
+
 
     appliquerFiltre(evt) {
         let mesFilms;
@@ -66,5 +108,4 @@ export default class Application {
             this.#catalogue.afficher();
         }
     }
-
 }

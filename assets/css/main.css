@@ -206,6 +206,53 @@ SECTION CATALOGUE ROWS
 }
 
 /************************
+Cartes dialogue
+************************/
+
+.dialogue {
+    background-color: rgb(210, 201, 201);
+    border-radius: 10px;
+
+
+}
+
+.dialogue.show {
+    display: block;
+}
+
+.carte-dialogue {
+    padding: 50px;
+}
+
+.hidden {
+    display: none;
+}
+
+
+
+#modale {
+    min-width: 300px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 0 8px #777;
+}
+
+#modale h2 {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#modale span {
+    color: cornflowerblue;
+    font-weight: bold;
+}
+
+#modale button {
+    display: block;
+    margin: 30px auto 10px;
+}
+
+/************************
 Utilitaire
 ************************/
 

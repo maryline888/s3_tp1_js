@@ -4,7 +4,7 @@ export default class Filtre {
     constructor(domParent, donneesInitiale) {
         this.donnees = donneesInitiale;
         this.domParent = domParent;
-        this.genererFiltre(donneesInitiale);
+        // this.genererFiltre(donneesInitiale);
     }
 
     //     genererFiltre(donnees) {
