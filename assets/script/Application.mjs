@@ -20,6 +20,7 @@ export default class Application {
 
         this.#catalogue.afficher();
 
+
         /** pour gerer laffichage en liste ou en grille */
         const divIcones = document.querySelector(".icones");
         divIcones.addEventListener("click", this.gererAffichage.bind(this));
@@ -40,12 +41,20 @@ export default class Application {
 
         /** pour gerer la recherche */
 
+        /** pour gerer le tri */
 
-        /** pour gerer la boite dialogue */
-        // const modaleDetail = document.getElementById("modale");
-        // const modeleDetail = document.getElementById("modeleDetail");
-        // const btnfermer = document.querySelector('.btnModale');
-        // btnfermer.onClick('click').close();
+        let sectionTri = document.querySelector(".section-tri");
+        this.#Tri = new Tri(sectionTri, oeuvresMtl);
+
+        // sectionTri.addEventListener("click", this.genererTri);
+        sectionTri.childNodes.forEach(elem => {
+            elem.addEventListener("click", this.genererTri)
+
+        });
+
+        /** pour gerer la recherche */
+
+
 
     }
 
@@ -75,7 +84,6 @@ export default class Application {
             console.log("grid-click");
 
         }
-        //  this.#catalogue.setAffichage(choixAffichage);
         this.#catalogue.afficher();
     }
 

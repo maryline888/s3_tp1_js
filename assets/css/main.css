@@ -72,12 +72,13 @@ Recherche
     margin-top: 50px;
     margin-bottom: 50px;
     border-radius: 10px;
-    /* justify-content: center;*/
+    justify-content: center;
+    align-items: center;
 
 }
 
 input[type='search'] {
-    width: 75%;
+    width: 50%;
     margin-right: 15px;
     padding: 10px;
     border-radius: 10px;
@@ -163,7 +164,6 @@ Section catalogue COLUMNS
     margin-bottom: 25px;
     margin-right: 20px;
     border-radius: 10px;
-    max-width: 250px;
 
 }
 
@@ -210,11 +210,21 @@ Cartes dialogue
 ************************/
 
 .dialogue {
-    background-color: rgb(210, 201, 201);
+    background-color: rgb(210, 201, 201, 0.875);
     border-radius: 10px;
 
+    min-width: 800px;
+    border: none;
+    text-align: center;
+    box-shadow: 0 0 8px #777;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
 }
+
 
 .dialogue.show {
     display: block;
@@ -224,32 +234,12 @@ Cartes dialogue
     padding: 50px;
 }
 
+.main {
+    background-color: blur;
+}
+
 .hidden {
     display: none;
-}
-
-
-
-#modale {
-    min-width: 300px;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0 0 8px #777;
-}
-
-#modale h2 {
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-#modale span {
-    color: cornflowerblue;
-    font-weight: bold;
-}
-
-#modale button {
-    display: block;
-    margin: 30px auto 10px;
 }
 
 /************************
@@ -263,5 +253,8 @@ Utilitaire
 .icones span {
     display: block;
     cursor: pointer;
+    margin-right: 30px;
+
+
 
 }

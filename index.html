@@ -33,7 +33,7 @@
         </nav>
 
     </header>
-    <main>
+    <main class="main">
         <aside class="recherche">
 
             <input type="search" name="champs-rechercher" placeholder="votre recherche">
@@ -46,10 +46,20 @@
                 <span class="material-symbols-outlined view_grid">
                     grid_view
                 </span>
+
             </div>
+            <section class="section-tri">
+                <button class="tri-titre">Trier par Titre</button>
+                <button class="tri-annee">Trier par Annee</button>
+                <input type="radio" name="ordre" value="ASC">ASC
+                <input type="radio" name="ordre" value="DESC">DESC
+            </section>
         </aside>
 
+
+
         <aside class="filtre">
+
             <div class="controle">
                 <header><span class="material-icons">tune</span>Filtre à appliquer</header>
 
