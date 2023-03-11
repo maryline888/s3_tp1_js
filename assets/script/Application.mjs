@@ -9,84 +9,139 @@ import Tri from "./Tri.mjs";
 export default class Application {
     #catalogue;
     #filtre;
-    #Recherche;
-    #Tri;
+    #afficher;
+    #recherche;
+    #tri;
 
     constructor() {
-
-
         const domCatalogue = document.querySelector("#catalogue");
         this.#catalogue = new Catalogue(domCatalogue, oeuvresMtl);
 
         this.#catalogue.afficher();
 
-
         /** pour gerer laffichage en liste ou en grille */
         const divIcones = document.querySelector(".icones");
         divIcones.addEventListener("click", this.gererAffichage.bind(this));
 
-        /** pour gerer laffichage du detail de chaques oeuvres */
-        this.#catalogue.domCatalogue.childNodes.forEach(element => {
+        /**
+         * pour chaque oeuvre du lobj oeuvresMtl, on va chercher les arrondissement. et retire les -
+         * si le tableau inclue deja l'arrondissement alors on ne lajoute pas 
+         * trier le tableau recu 
+         * pour chaque element du tab on cré un element li 
+         * lorsque click sur le li, appel a la fonction rechercheFiltre
+         * insere dans le dom larrondissement
+         */
 
-            element.addEventListener("click", this.#catalogue.afficherDialogue.bind(this));
+        this.#filtre = new Filtre(this.#catalogue);
+        //filtre dynamique des arrondissements
+        const parentUl = document.querySelector("#ul-arrondissement");
+        let tabArrond = [];
+        oeuvresMtl.forEach(oeuvre => {
+
+            let arrondissement = oeuvre.Arrondissement.replaceAll("-", " ");
+
+
+            if (!tabArrond.includes(arrondissement)) {
+                tabArrond.push(arrondissement);
+            }
+
+        });
+        tabArrond.sort();
+        tabArrond.forEach(arrondissement => {
+            let li = document.createElement("li");
+            li.addEventListener("click", this.#filtre.rechercheFiltre.bind(this.#filtre));
+
+            let textNode = document.createTextNode(arrondissement);
+            li.appendChild(textNode);
+            parentUl.appendChild(li);
         });
 
-        /** pour gerer les filtres */
-        let sectionFiltre = document.querySelector(".liste-categorie");
-        this.#filtre = new Filtre(sectionFiltre, oeuvresMtl);
-        sectionFiltre.addEventListener("click", this.appliquerFiltre.bind(this));
+        //filtre dynamique des noms de materiaux
+        const parentUlMateriaux = document.querySelector("#ul-Materiaux");
+        let tabMat = [];
 
-        this.modale;
-        let gabaritDetail;
+        oeuvresMtl.forEach(oeuvre => {
+            let materiaux = oeuvre.Materiaux ? oeuvre.Materiaux.split(';') : [];// séparer les matériaux en utilisant le point-virgule comme séparateur
+            materiaux.forEach(m => {
+                let mat = m.trim();
+                if (!tabMat.includes(mat) && mat !== "") { // ajouter le matériau au tableau uniquement s'il n'existe pas déjà et s'il n'est pas vide
+                    tabMat.push(mat);
+                }
+            });
+        });
+
+        tabMat.sort();
+        tabMat.forEach(materiaux => {
+            let li = document.createElement("li");
+            li.addEventListener("click", this.#filtre.rechercheFiltre.bind(this.#filtre));
+
+            let textNode = document.createTextNode(materiaux);
+            li.appendChild(textNode);
+            parentUlMateriaux.appendChild(li);
+        });
+
+
+
+        /** au click du bouton on rétabli la page catalogue pour afficher toutes les oeuvres */
+        let btnRetablir = document.querySelector(".btn-retablir");
+        btnRetablir.addEventListener("click", this.#filtre.retablirFiltre.bind(this.#filtre));
 
         /** pour gerer la recherche */
+        this.#recherche = new Recherche(this.#catalogue);
+        let btnRecherche = document.querySelector(".btn-rechercher");
+        btnRecherche.addEventListener("click", this.#recherche.rechercheMotCle.bind(this.#recherche));
 
+
+        this.#tri = new Tri(this.#catalogue);
         /** pour gerer le tri */
+        const sectionTri = document.querySelector(".section-tri");
+        let radioTri = document.querySelector('input[name="trierPar"]:checked');
+        let radioOrdre = document.querySelector('input[name="ordre"]:checked');
 
-        let sectionTri = document.querySelector(".section-tri");
-        this.#Tri = new Tri(sectionTri, oeuvresMtl);
+        // sectionTri.addEventListener("click", this.genererTri
 
-        // sectionTri.addEventListener("click", this.genererTri);
-        sectionTri.childNodes.forEach(elem => {
-            elem.addEventListener("click", this.genererTri)
+
+        sectionTri.forEach(radioBtn => {
+            radioBtn.addEventListener("change", this.genererTri)
+            let params = {
+                type: radioTri.value,
+                ordre: radioOrdre.value
+            };
 
         });
+    }// fin constructeur
 
-        /** pour gerer la recherche */
-
-
-
-    }
-
-
-
+    /**
+     * 
+     * @returns 
+     */
     getCatalogue() {
         return this.#catalogue;
     }
 
     /**
-     * pour gerer laffichage en liste ou en grille 
-     * ne fonctionne pas 
+     * 
+     * @param {*} event 
+     * divIcones.addEvent cré event et va sur la cible pour détecter la classe
      * 
      */
     gererAffichage(event) {
 
         if (event.target.classList.contains('view_list')) {
-            console.log("liste-click");
-
             this.#catalogue.domCatalogue.classList.add('catalogueRow');
             this.#catalogue.domCatalogue.classList.remove('catalogue');
 
         } else if (event.target.classList.contains('view_grid')) {
             this.#catalogue.domCatalogue.classList.remove('catalogueRow');
             this.#catalogue.domCatalogue.classList.add('catalogue');
-
-            console.log("grid-click");
-
         }
-        this.#catalogue.afficher();
     }
 
+    /**
+     * 
+     * @param {*} evt 
+     * 
+     */
 
     appliquerFiltre(evt) {
         let mesFilms;
@@ -110,8 +165,6 @@ export default class Application {
             }
             //const mesFilms = this.#filtre.appliquerFiltre("running_time", "90-100", oeuvresMtl)
 
-
-            console.log(mesFilms)
             this.#catalogue.setOeuvres(oeuvresMtl);
             this.#catalogue.afficher();
         }

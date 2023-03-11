@@ -1,11 +1,12 @@
 export default class Catalogue {
 
-    #aOeuvresMtl = [];
+    #aOeuvresMtl;
+    #oeuvresAafficher;
 
     constructor(domCatalogue, aOeuvresMtl) {
         this.domCatalogue = domCatalogue;
         this.#aOeuvresMtl = aOeuvresMtl;
-
+        this.#oeuvresAafficher = aOeuvresMtl;
 
 
     }
@@ -19,6 +20,10 @@ export default class Catalogue {
     getOeuvres() {
         return this.#aOeuvresMtl;
     }
+    getOeuvresAafficher() {
+        return this.#oeuvresAafficher;
+    }
+
 
     /**
      * @param 
@@ -27,11 +32,18 @@ export default class Catalogue {
      * construction de la chaine html qui affiche le catalogue des oeuvres
      * de façon dynamique 
      */
-    afficher() {
+    afficher(oeuvres) {
+
+
+        if (oeuvres) {
+            this.#oeuvresAafficher = oeuvres;
+        } else {
+            this.#oeuvresAafficher = this.#aOeuvresMtl;
+        }
 
         let chaineHTML = "";
 
-        this.#aOeuvresMtl.forEach((oeuvre) => {
+        this.#oeuvresAafficher.forEach((oeuvre) => {
             chaineHTML += ` <article class="carte" data-numero=${oeuvre.NoInterne}>
                             <header>
                                 <h2>${oeuvre.Titre}</h2>`
@@ -50,6 +62,11 @@ export default class Catalogue {
                             </article > `;
         })
         this.domCatalogue.innerHTML = chaineHTML;
+        /** pour gerer laffichage du detail de chaques oeuvres */
+        this.domCatalogue.childNodes.forEach(element => {
+
+            element.addEventListener("click", this.afficherDialogue.bind(this));
+        });
     }
 
     /**
@@ -57,7 +74,7 @@ export default class Catalogue {
      * @return {int} year 
      */
     extraireAnnee(timeStamp) {
-        // si aucune donnée - pas de null - on retourne un chaine vide
+        // si aucune donnée, null inclue on retourne un chaine vide
         if (!timeStamp) {
             return "";
         }
@@ -80,11 +97,10 @@ export default class Catalogue {
         let artiste = [];
 
         const module = document.querySelector(".dialogue");
-
         // récupération du data-numero=${oeuvre.NoInterne}
         let numero = event.currentTarget.dataset.numero;
         // accèder aux oeuvres du catalogue et trouver l'élément correspondant à l'élément sur lequel il y a un clic
-        let oeuvre = this.getCatalogue().getOeuvres().find(element =>
+        let oeuvre = this.#aOeuvresMtl.find(element =>
             element.NoInterne == numero
         );
         // construction du string pour passer toutes les donnees voulue 
@@ -103,13 +119,9 @@ export default class Catalogue {
         module.innerHTML = str;
         module.classList.add("show");
 
-
         const btnfermer = document.querySelector('.btnModale');
         btnfermer.addEventListener("click", (event) => {
             module.classList.remove("show");
         });
-
-
     }
-
 }

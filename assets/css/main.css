@@ -77,6 +77,7 @@ Recherche
 
 }
 
+
 input[type='search'] {
     width: 50%;
     margin-right: 15px;
@@ -96,6 +97,10 @@ button {
     border: transparent;
     padding: 10px;
     margin-right: 30px;
+}
+
+button:hover {
+    background-color: rgb(223, 217, 217);
 }
 
 /********************
@@ -138,12 +143,16 @@ Section filtre
     padding: 4px;
 }
 
-.filtre .choixFiltre:hover {
-    background-color: rgba(200, 200, 200, 0.5);
-}
+
 
 .liste-categorie {
     flex-direction: column;
+    line-height: 1.5em;
+}
+
+.filtre li:hover {
+    cursor: pointer;
+    background-color: rgba(200, 200, 200, 0.5);
 }
 
 /**************************
@@ -254,7 +263,4 @@ Utilitaire
     display: block;
     cursor: pointer;
     margin-right: 30px;
-
-
-
 }

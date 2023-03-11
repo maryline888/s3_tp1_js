@@ -31,14 +31,11 @@
             <a href="#">Item 3</a>
             <a href="#">Item 4</a>
         </nav>
-
     </header>
     <main class="main">
         <aside class="recherche">
-
             <input type="search" name="champs-rechercher" placeholder="votre recherche">
             <button class="btn-rechercher">Rechercher</button>
-
             <div class="icones">
                 <span class="material-symbols-outlined view_list">
                     view_list
@@ -46,119 +43,40 @@
                 <span class="material-symbols-outlined view_grid">
                     grid_view
                 </span>
-
             </div>
             <section class="section-tri">
-                <button class="tri-titre">Trier par Titre</button>
-                <button class="tri-annee">Trier par Annee</button>
-                <input type="radio" name="ordre" value="ASC">ASC
+                <input type="radio" name="trierPar" value="titre" checked>Titre
+                <input type="radio" name="trierPar" value="annee">Annee
+                <input type="radio" name="ordre" value="ASC" checked>ASC
                 <input type="radio" name="ordre" value="DESC">DESC
             </section>
         </aside>
-
-
-
         <aside class="filtre">
-
             <div class="controle">
-                <header><span class="material-icons">tune</span>Filtre à appliquer</header>
-
-                <section class="liste-categorie">
-
-                    <div><span>Arrondissement<span class="material-icons">arrow_drop_down</span></span>
-                        <li class="choixFiltre" data-js-cat="release_date" data-js-cat-valeur="1986" data-js-actif="0">
-                        </li>
-                        <!-- <li class="choixFiltre" data-js-cat="release_date" data-js-cat-valeur="1988" data-js-actif="1">
-                            1988</li>
-                        <li class="choixFiltre" data-js-cat="release_date" data-js-cat-valeur="1989" data-js-actif="0">
-                            1989</li>
-                        <li class="choixFiltre" data-js-cat="release_date" data-js-cat-valeur="1992" data-js-actif="0">
-                            1992</li> -->
+                <header>
+                    <button class="btn-retablir">
+                        Rétablir les filtres
+                    </button>
+                    <!-- <span class="material-icons">tune</span> -->
+                    <div class="filtreApplique">
+                        <p>Filtre appliquer :</p>
                     </div>
-
-                    <div><span>Artiste<span class="material-icons">arrow_drop_down</span></span>
-                        <li class="choixFiltre" data-js-cat="running_time" data-js-cat-valeur="124" data-js-actif="0">
-                        </li>
-                        <!-- <li class="choixFiltre" data-js-cat="running_time" data-js-cat-valeur="89" data-js-actif="1">89
-                        </li>
-                        <li class="choixFiltre" data-js-cat="running_time" data-js-cat-valeur="86" data-js-actif="0">86
-                        </li> -->
-
-                        <div><span>Matériaux<span class="material-icons">arrow_drop_down</span></span></div>
-                        <li class="choixFiltre" data-js-cat="material" data-js-cat-valeur="film" data-js-actif="0"></li>
-
-                        <div><span>Année d'inauguration<span class="material-icons">arrow_drop_down</span></span></div>
-                        <li class="choixFiltre" data-js-cat="year_of_production" data-js-cat-valeur="1954"
-                            data-js-actif="0"></li>
-
-                        <div><span>Nom de collection<span class="material-icons">arrow_drop_down</span></span></div>
-                        <li class="choixFiltre" data-js-cat="collection" data-js-cat-valeur="The Collection"
-                            data-js-actif="0"></li>
-
+                </header>
+                <section class="liste-categorie choixFiltre">
+                    <div><span>Arrondissement<span class="material-icons">arrow_drop_down</span></span>
+                        <ul id="ul-arrondissement">
+                        </ul>
+                    </div>
+                    <div><span>Nom Collection<span class="material-icons">arrow_drop_down</span></span>
+                        <ul id="ul-Materiaux">
+                        </ul>
                 </section>
-            </div>
-            <div>
-                Appliqué :
             </div>
 
         </aside>
-
-        <!-- <section class="dialogue hidden">
-
-            <article class="carte-dialogue">
-                <header>
-                    <h2>Source</h2>
-                    <h3>Patrick Coutu</h3>
-                    <h4>date</h4>
-                </header>
-                <div class="contenu">
-                    <p>Titre Variante : null</p>
-                    <p>Nom Collection : Art Public</p>
-                    <p>Categorie : Beaux-Arts</p>
-                    <p>Sous Categorie</p>
-                    <p>Mode Acquisition</p>
-                    <p>Technique : Bronze coulé; boulonné</p>
-                    <p>Arrondissement</p>
-                    <p>Batiment: Centre sportif Notre-Dame-de Grâce</p>
-                    <p>Adresse : 6445, avenue Monkland, Montréal</p>
-                </div>
-
-            </article>
-
-        </section> -->
-
         <dialog class="dialogue ">
-            <!--
-                <>
-            <h2>{titre}</h2>
-            <h3>{nom}</h3>
-            <h4>{date}</h4>
-            <p><span>Titre Variante :</span> {id}</p>
-            <p><span>Nom Collection:</span> {nom}</p>
-            <p><span>Categorie:</span> {importance}</p>
-            <p><span>Mode Acquisition:</span> {fait}</p>
-            <p><span>Technique:</span> {date}</p>
-            <p><span>Arrondissement:</span> {date}</p>
-            <p><span>Batiment:</span> {date}</p>
-            <p><span>Adresse:</span> {date}</p>
-            <button class="btnModale">Fermer</button>
--->
         </dialog>
-
         <section class="catalogue" id="catalogue">
-            <!--<article class="carte">
-                <header>
-                    <h2>Titre du produit</h2>
-                </header>
-      
-                <div class="contenu">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga sapiente repellendus qui.</p>
-                </div>
-                <footer class="action">x, y z</footer>
-            </article>-->
-
-
-
         </section>
     </main>
 </body>

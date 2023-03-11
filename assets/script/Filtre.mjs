@@ -1,82 +1,39 @@
 export default class Filtre {
-    #listeValeur = [];
 
-    constructor(domParent, donneesInitiale) {
-        this.donnees = donneesInitiale;
-        this.domParent = domParent;
-        // this.genererFiltre(donneesInitiale);
+    constructor(catalogue) {
+        this.catalogue = catalogue;
     }
 
-    //     genererFiltre(donnees) {
-    //         console.log(donnees);
-    //         this.#listeValeur = donnees.map((unFilm) => {
-    //             return unFilm.release_date;
-    //         })
-    //         console.log(this.#listeValeur);
+    /**
+     * 
+     * @param {*} e
+     * affiche le resultat du catalogue lors que le filtre arrondissement a ete selectionné
+     */
+    rechercheFiltre(e) {
+        let resultat = [];
+        let arrondissement = e.currentTarget.innerHTML.replaceAll(" ", "-");
 
-    //         this.#listeValeur = [...new Set(this.#listeValeur)];
-    //         this.afficher();
-    //     }
-    //     /**
-    //      * 
-    //      * @param {string} cat Propriété à filtrer
-    //      * @param {string | number} valeur Valeur du filtre
-    //      * @param {array} donnees Valeur à filtrer
-    //      * @returns array
-    //      */
-    //     appliquerFiltre(cat, valeur, donnees) {
-    //         // appliquer un filtre ?
-    //         const mesElements = donnees.filter((unElement) => {
-    //             let valide = false;
-    //             if (cat == "running_time") {  // valeur == "100-120"
-    //                 let [min, max] = valeur.split("-");   // Affecter 100 à min et 120 a max
+        let regex = new RegExp(arrondissement, "gi");
+        resultat = this.catalogue.getOeuvresAafficher().filter(oeuvre => regex.test(oeuvre.Arrondissement));
 
-    //                 /*let aValeur = valeur.split("-");    //[100,120]
-    //                 let min = aValeur[0]
-    //                 let max =  aValeur[1];*/
-
-    //                 if (max == "+") {
-    //                     max = null;
-    //                 }
-
-    //                 if (parseFloat(min) <= unElement.running_time && (unElement.running_time <= parseFloat(max) || max == null)) {  //unFilm.release_date
-    //                     valide = true;
-    //                 }
-    //             }
-    //             if (Array.isArray(unElement[cat])) {
-    //                 // Faire x, y, z
-    //             }
-    //             else {
-    //                 if (unElement[cat] == valeur) {  //unFilm.release_date
-    //                     valide = true;
-    //                 }
-    //             }
-    //             return valide;
-    //         })
-    //         return mesElements;
-    //     }
-
-    //     afficher() {
-    //         console.log(this.#listeValeur);
-    //         let chaineHTML = `<div><span>Date de sortie<span class="material-icons">arrow_drop_down</span></span>`;
-    //         this.#listeValeur.forEach((uneValeur) => {
-    //             chaineHTML += `<li class="choixFiltre" data-js-cat="release_date" data-js-cat-valeur="${uneValeur}" data-js-actif="0">${uneValeur}</li>`;
-    //         })
-    //         chaineHTML += `</div>`;
-
-    //         const temps = ["0-79", "80-89", "90-99", "100-109", "110-119", "120-+"];
-    //         chaineHTML += `<div><span>Durée<span class="material-icons">arrow_drop_down</span></span>`;
-    //         temps.forEach((uneValeur) => {
-    //             chaineHTML += `<li class="choixFiltre" data-js-cat="running_time" data-js-cat-valeur="${uneValeur}" data-js-actif="0">${uneValeur}</li>`;
-    //         })
-    //         chaineHTML += `</div>`;
+        this.catalogue.afficher(resultat)
 
 
+        // const filtreApplique = document.querySelector('.filtreAppliqué');
+        // const choixFiltre = document.querySelectorAll('.choixFiltre ul li');
+        // choixFiltre.forEach(item => {
+        //     item.addEventListener('click', () => {
+        //         const filtreSelectionne = item.textContent.trim();
+        //         filtreApplique.textContent = `Filtre appliqué : ${filtreSelectionne}`;
+        //     });
+        // });
 
+    }
 
-    //         this.domParent.innerHTML = chaineHTML;
-
-    //     }
-
-
+    /**
+     * methode qui retourne l'affichage de toutes les oeuvres
+     */
+    retablirFiltre() {
+        this.catalogue.afficher();
+    }
 }
