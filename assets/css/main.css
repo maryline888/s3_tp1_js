@@ -9,6 +9,19 @@ body {
     padding: 0px;
 }
 
+.container aside {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 30%;
+    justify-content: left;
+    margin-left: 20px;
+
+}
+
+h3 {
+    line-height: 10px;
+}
+
 /****************************
 Top Nav
 ****************************/
@@ -17,7 +30,7 @@ Top Nav
     flex-direction: row;
     justify-content: flex-end;
     height: 64px;
-    background-color: rgb(171, 230, 224);
+    background-color: rgb(204, 232, 229);
     align-items: center;
     padding-left: 16px;
     padding-right: 16px;
@@ -42,25 +55,6 @@ Top Nav
     text-transform: uppercase;
 }
 
-
-
-/***************************
-* Main
-****************************/
-main {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-
-}
-
-main aside {
-    display: flex;
-    flex-direction: column;
-
-
-}
-
 /****************************
 Recherche
 *****************************/
@@ -83,7 +77,7 @@ input[type='search'] {
     margin-right: 15px;
     padding: 10px;
     border-radius: 10px;
-    border: 1px solid gray;
+    border: 1px solid rgb(148, 146, 146);
 
 }
 
@@ -103,56 +97,39 @@ button:hover {
     background-color: rgb(223, 217, 217);
 }
 
+.btn-filtrer {
+    max-width: fit-content;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 20px;
+}
+
+.btnModale {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 55px;
+    padding-left: 55px;
+    margin-top: 20px;
+}
+
+select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
 /********************
 Section filtre
 **********************/
-.controle * {
-    margin-bottom: 5px;
-}
 
 .filtre {
-    padding: 16px 16px;
-    display: flex;
-    align-items: start;
-    flex-direction: column;
-    width: 150px;
-
+    padding: 20px;
+    justify-content: flex-start;
 }
 
 .filtre div {
     display: flex;
     flex-direction: column;
-
-}
-
-.filtre ul {
-    margin: 0px;
-    padding: 0px 0px 0px 16px;
-}
-
-.filtre div span {
-    text-align: end;
-}
-
-.filtre [data-js-actif='1'] {
-    border: 2px solid rebeccapurple;
-}
-
-.filtre .choixFiltre {
-    list-style-type: none;
-    padding: 4px;
-}
-
-
-
-.liste-categorie {
-    flex-direction: column;
-    line-height: 1.5em;
-}
-
-.filtre li:hover {
-    cursor: pointer;
-    background-color: rgba(200, 200, 200, 0.5);
 }
 
 /**************************
@@ -161,23 +138,23 @@ Section catalogue COLUMNS
 .catalogue {
     padding: 16px 16px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, .25fr));
-    gap: 16px;
-    width: calc(95vw - 150px);
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     box-sizing: border-box;
+    gap: 15px;
 }
 
 .catalogue .carte {
     border: rgb(162, 155, 155) 1px solid;
-    padding: 15px;
-    margin-bottom: 25px;
-    margin-right: 20px;
     border-radius: 10px;
+    text-align: center;
 
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 }
 
 .catalogue .carte header {
-    max-width: 200px;
+    color: #5e3786;
 }
 
 /****************************
@@ -185,29 +162,31 @@ SECTION CATALOGUE ROWS
 ****************************/
 .catalogueRow {
     margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
     box-sizing: border-box;
-    flex: 1;
-    max-width: 100%;
 }
 
 .catalogueRow .carte {
-
     display: flex;
     flex-direction: row;
-    gap: 35px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
     border: rgb(162, 155, 155) 1px solid;
     padding: 25px;
-    margin-bottom: 25px;
-    margin-right: 20px;
     border-radius: 10px;
+
+    margin-top: 20px;
 }
 
 .catalogueRow .carte header {
-    min-width: 35%;
+    max-width: 40%;
+    color: #5e3786;
 }
 
 .catalogueRow .carte .contenu {
-    min-width: 40%;
+    justify-content: center;
 }
 
 .catalogueRow .action {
@@ -219,10 +198,10 @@ Cartes dialogue
 ************************/
 
 .dialogue {
-    background-color: rgb(210, 201, 201, 0.875);
+    background-color: rgba(94, 55, 134, 0.899);
     border-radius: 10px;
-
-    min-width: 800px;
+    padding: 50px;
+    min-width: 80%;
     border: none;
     text-align: center;
     box-shadow: 0 0 8px #777;
@@ -232,19 +211,12 @@ Cartes dialogue
     left: 50%;
     transform: translate(-50%, -50%);
 
+    font-size: 24px;
 }
 
 
 .dialogue.show {
     display: block;
-}
-
-.carte-dialogue {
-    padding: 50px;
-}
-
-.main {
-    background-color: blur;
 }
 
 .hidden {

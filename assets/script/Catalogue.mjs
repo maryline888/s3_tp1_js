@@ -6,28 +6,24 @@ export default class Catalogue {
     constructor(domCatalogue, aOeuvresMtl) {
         this.domCatalogue = domCatalogue;
         this.#aOeuvresMtl = aOeuvresMtl;
-        // oeuvreAafficher est une copie du tab aOeuvresMtl mais permet de pouvoir gere laffichage
-        this.#oeuvresAafficher = aOeuvresMtl;
-    }
+        this.#oeuvresAafficher = aOeuvresMtl;// oeuvreAafficher est une copie du tab aOeuvresMtl mais permet de pouvoir gere laffichage
 
+    }
     // afin de donner accès au array Oeuvres Mtl 
     setOeuvres(aOeuvresMtl) {
         this.#aOeuvresMtl = aOeuvresMtl;
     }
-
-    // afin de pouvoir manipuler les donnés
+    // afin de pouvoir manipuler les donnés à l'extérieur
     getOeuvres() {
         return this.#aOeuvresMtl;
     }
     getOeuvresAafficher() {
         return this.#oeuvresAafficher;
     }
-
     /**
      * @param {array} oeuvres
-     * @return {string }chaineHtml
-     * construction de la chaine html qui affiche le catalogue des oeuvres
-     * de façon dynamique 
+     * @return {string } chaineHtml
+     * construction de la chaine html qui affiche le catalogue des oeuvres de façon dynamique 
      */
     afficher(oeuvres) {
         // si la méthode reçoit une param, alors utilisé ce tableau pour construire le DOM
@@ -36,22 +32,19 @@ export default class Catalogue {
         } else { // si aucun param, alors retourner le tableau dobj des oeuvres complet
             this.#oeuvresAafficher = this.#aOeuvresMtl;
         }
-
         let chaineHTML = "";
-
         this.#oeuvresAafficher.forEach((oeuvre) => {
             chaineHTML += ` <article class="carte" data-numero=${oeuvre.NoInterne}>
                             <header>
                                 <h2>${oeuvre.Titre}</h2>`
-
             // appel de du module extraireAnnee avec oeuvre.DateFinProduction en param
             chaineHTML += `<h1>${this.extraireAnnee(oeuvre.DateFinProduction)}</h1>         
                             </header>`;
             // utiliser le tableau artiste afin d'extraire le prenom et le nom
             for (const artiste of oeuvre.Artistes) {
-                chaineHTML += `<p>${artiste.Prenom} ${artiste.Nom}</p>`;
+                chaineHTML += `<div class="contenu" ><p>${artiste.Prenom} ${artiste.Nom}</p>`;
             }
-            chaineHTML += ` <div class="contenu" >
+            chaineHTML += ` <div class="footer" >
                                 <h2></h2>
                                 <p>${oeuvre.Arrondissement}</p>
                             </div >
@@ -60,11 +53,9 @@ export default class Catalogue {
         this.domCatalogue.innerHTML = chaineHTML;
         /** pour gerer laffichage du detail de chaques oeuvres */
         this.domCatalogue.childNodes.forEach(element => {
-
             element.addEventListener("click", this.afficherDialogue.bind(this));
         });
     }
-
     /**
      * @param {string} timeStamp qui est la DateFinProduction
      * @return {int} year 
@@ -79,10 +70,8 @@ export default class Catalogue {
         //  utilisation de l'obj Date pour convertir le timeStamp en année 
         let date = new Date(parseInt(timeStamp));
         let year = date.getFullYear();
-
         return year;
     }
-
     /**
      * 
      * @param {string} event
@@ -90,28 +79,20 @@ export default class Catalogue {
      */
     afficherDialogue(event) {
         let str = "";
-        let artiste = [];
-
         const module = document.querySelector(".dialogue");
-        // récupération du data-numero=${oeuvre.NoInterne}
-        let numero = event.currentTarget.dataset.numero;
-        // accèder aux oeuvres du catalogue et trouver l'élément correspondant à l'élément sur lequel il y a un clic
-        let oeuvre = this.#aOeuvresMtl.find(element =>
+        let numero = event.currentTarget.dataset.numero; // récupération du data-numero=${oeuvre.NoInterne}
+        let oeuvre = this.#aOeuvresMtl.find(element =>  // accèder aux oeuvres du catalogue et trouver l'élément correspondant à l'élément sur lequel il y a un clic
             element.NoInterne == numero
         );
         // construction du string pour passer toutes les donnees voulue 
-        str += `<h2>Fiche informative</h2>
-        <h2>Titres : ${oeuvre.Titre} </h2>
-        <h2>Artiste : ${oeuvre.Artistes[0].Prenom} ${oeuvre.Artistes[0].Nom} </h2>
-        
-                <h3>Collection: ${oeuvre.NomCollection}</h3>
-                <h3>Matériaux utilisés: ${oeuvre.Materiaux}</h3>
-                <h3>Arrondissement: ${oeuvre.Arrondissement}</h3>
-                <h3>Ou le trouver: ${oeuvre.Parc}</h3>
-                <h3>${oeuvre.SousCategorieObjet}</h3>`;
-
-        str += `<button class='btnModale'>Fermer</button>`;
-
+        str += `<h2>${oeuvre.Titre} </h2>
+                <h3>Artiste </h3> ${oeuvre.Artistes[0].Prenom} ${oeuvre.Artistes[0].Nom} 
+                <h3>Collection</h3>${oeuvre.NomCollection}
+                <h3>Matériaux utilisés</h3> ${oeuvre.Materiaux}
+                <h3>Arrondissement</h3> ${oeuvre.Arrondissement}
+                <h3>Emplacement</h3> ${oeuvre.Parc}
+                <h3>Sous catégorie</h3>${oeuvre.SousCategorieObjet};
+                <br><button class='btnModale'>Fermer</button>`;
         module.innerHTML = str;
         module.classList.add("show");
 

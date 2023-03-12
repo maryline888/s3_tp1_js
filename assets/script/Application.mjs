@@ -10,7 +10,7 @@ export default class Application {
     #catalogue;
     #filtre;
     #afficher;
-    #recherche;
+    #recherche
     #tri;
 
     constructor() {
@@ -23,64 +23,51 @@ export default class Application {
         const divIcones = document.querySelector(".icones");
         divIcones.addEventListener("click", this.gererAffichage.bind(this));
 
-        /**
-         * pour chaque oeuvre du lobj oeuvresMtl, on va chercher les arrondissement. et retire les -
-         * si le tableau inclue deja l'arrondissement alors on ne lajoute pas 
-         * trier le tableau recu 
-         * pour chaque element du tab on cré un element li 
-         * lorsque click sur le li, appel a la fonction rechercheFiltre
-         * insere dans le dom larrondissement
-         */
-
+        /* pour gérer la class filtre */
         this.#filtre = new Filtre(this.#catalogue);
         //filtre dynamique des arrondissements
-        const parentUl = document.querySelector("#ul-arrondissement");
+        const selectArron = document.querySelector(".div__select--arron");
         let tabArrond = [];
-        oeuvresMtl.forEach(oeuvre => {
-
-            let arrondissement = oeuvre.Arrondissement.replaceAll("-", " ");
-
-
-            if (!tabArrond.includes(arrondissement)) {
-                tabArrond.push(arrondissement);
+        oeuvresMtl.forEach(oeuvre => { //pour chaque oeuvre de lobj oeuvresMtl, on va chercher les arrondissements
+            let arrondissement = oeuvre.Arrondissement;
+            if (!tabArrond.includes(arrondissement)) {//si le tableau n'inclue pas l'arrondissement
+                tabArrond.push(arrondissement);//l'arondissement est ajouté au tableau
             }
-
         });
-        tabArrond.sort();
+        tabArrond.sort();//trier le tableau
         tabArrond.forEach(arrondissement => {
-            let li = document.createElement("li");
-            li.addEventListener("click", this.#filtre.rechercheFiltre.bind(this.#filtre));
-
+            let option = document.createElement("option");//création de l'élément option dans lequel sera inséré les éléments de notre tableau
             let textNode = document.createTextNode(arrondissement);
-            li.appendChild(textNode);
-            parentUl.appendChild(li);
+            option.appendChild(textNode);
+            selectArron.appendChild(option);
         });
-
         //filtre dynamique des noms de materiaux
-        const parentUlMateriaux = document.querySelector("#ul-Materiaux");
+        const selectMat = document.querySelector(".div__select--mat");
         let tabMat = [];
-
         oeuvresMtl.forEach(oeuvre => {
-            let materiaux = oeuvre.Materiaux ? oeuvre.Materiaux.split(';') : [];// séparer les matériaux en utilisant le point-virgule comme séparateur
-            materiaux.forEach(m => {
-                let mat = m.trim();
-                if (!tabMat.includes(mat) && mat !== "") { // ajouter le matériau au tableau uniquement s'il n'existe pas déjà et s'il n'est pas vide
-                    tabMat.push(mat);
-                }
-            });
+            let materiaux = oeuvre.Materiaux;
+            if (materiaux) {
+                materiaux = oeuvre.Materiaux.split(/[,;]/);//separer les matériaux au , et ; 
+                materiaux.forEach(element => {
+                    element = element.trim();//enleve les espaces
+                    element = element[0].toUpperCase() + element.substring(1);//met la premiere lettre en maj et retourne element sans sa premiere lettre originale
+                    if (!tabMat.includes(element)) { //valider si element n'est pas dans le tableau 
+                        tabMat.push(element);//alors on ajoute l'élément à tabMat
+                    }
+                });
+            }
         });
-
         tabMat.sort();
-        tabMat.forEach(materiaux => {
-            let li = document.createElement("li");
-            li.addEventListener("click", this.#filtre.rechercheFiltre.bind(this.#filtre));
-
-            let textNode = document.createTextNode(materiaux);
-            li.appendChild(textNode);
-            parentUlMateriaux.appendChild(li);
+        tabMat.forEach(materiau => {
+            let option = document.createElement("option");
+            let textNode = document.createTextNode(materiau);
+            option.appendChild(textNode);
+            selectMat.appendChild(option);
         });
 
-
+        /** au click du btn filtrer on appel la methode appliquerFiltre */
+        let btnFiltrer = document.querySelector(".btn-filtrer");
+        btnFiltrer.addEventListener("click", this.#filtre.appliquerFiltre.bind(this.#filtre))
 
         /** au click du bouton on rétabli la page catalogue pour afficher toutes les oeuvres */
         let btnRetablir = document.querySelector(".btn-retablir");
@@ -91,24 +78,13 @@ export default class Application {
         let btnRecherche = document.querySelector(".btn-rechercher");
         btnRecherche.addEventListener("click", this.#recherche.rechercheMotCle.bind(this.#recherche));
 
-
-        this.#tri = new Tri(this.#catalogue);
         /** pour gerer le tri */
+        this.#tri = new Tri(this.#catalogue);
         const sectionTri = document.querySelector(".section-tri");
-        let radioTri = document.querySelector('input[name="trierPar"]:checked');
-        let radioOrdre = document.querySelector('input[name="ordre"]:checked');
+        sectionTri.childNodes.forEach(radioBtn => {
+            radioBtn.addEventListener("change", this.#tri.genererTri.bind(this.#tri))
+        });
 
-        // sectionTri.addEventListener("click", this.genererTri
-
-
-        // sectionTri.forEach(radioBtn => {
-        //     //     radioBtn.addEventListener("change", this.genererTri)
-        //     //     let params = {
-        //     //         type: radioTri.value,
-        //     //         ordre: radioOrdre.value
-        //     //     };
-
-        //     // });
     }// fin constructeur
 
     /**
@@ -120,53 +96,16 @@ export default class Application {
     }
 
     /**
-     * 
      * @param {*} event 
      * divIcones.addEvent cré event et va sur la cible pour détecter la classe
-     * 
      */
     gererAffichage(event) {
-
         if (event.target.classList.contains('view_list')) {
             this.#catalogue.domCatalogue.classList.add('catalogueRow');
             this.#catalogue.domCatalogue.classList.remove('catalogue');
-
         } else if (event.target.classList.contains('view_grid')) {
             this.#catalogue.domCatalogue.classList.remove('catalogueRow');
             this.#catalogue.domCatalogue.classList.add('catalogue');
-        }
-    }
-
-    /**
-     * 
-     * @param {*} evt 
-     * 
-     */
-
-    appliquerFiltre(evt) {
-        let mesFilms;
-        if (evt.target.classList.contains("choixFiltre")) {
-            console.log(evt.target.dataset);
-
-            const cat = evt.target.dataset.jsCat;
-            const valeur = evt.target.dataset.jsCatValeur;
-            const eleActif = document.querySelector(".filtre [data-js-actif='1']");
-            if (eleActif) {
-                eleActif.dataset.jsActif = 0;
-            }
-
-            if (eleActif == evt.target) {
-                console.log("actif")
-                mesFilms = oeuvresMtl;
-            }
-            else {
-                evt.target.dataset.jsActif = 1;
-                mesFilms = this.#filtre.appliquerFiltre(cat, valeur, oeuvresMtl)
-            }
-            //const mesFilms = this.#filtre.appliquerFiltre("running_time", "90-100", oeuvresMtl)
-
-            this.#catalogue.setOeuvres(oeuvresMtl);
-            this.#catalogue.afficher();
         }
     }
 }

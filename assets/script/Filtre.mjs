@@ -1,39 +1,48 @@
 export default class Filtre {
-
+    #recherche;
     constructor(catalogue) {
         this.catalogue = catalogue;
+        this.rechercheMotCle;
     }
 
     /**
-     * 
-     * @param {*} e
      * affiche le resultat du catalogue lors que le filtre arrondissement a ete selectionné
      */
-    rechercheFiltre(e) {
+    appliquerFiltre(e) {
         let resultat = [];
-        let arrondissement = e.currentTarget.innerHTML.replaceAll(" ", "-");
+        const arronSelect = document.querySelector(".div__select--arron");
+        const matSelect = document.querySelector(".div__select--mat");
+        const domFiltreAppliquer = document.querySelector(".filtreApplique");
+        const arronValue = arronSelect.options[arronSelect.selectedIndex].value;
+        const matValue = matSelect.options[matSelect.selectedIndex].value;
 
-        let regex = new RegExp(arrondissement, "gi");
-        resultat = this.catalogue.getOeuvresAafficher().filter(oeuvre => regex.test(oeuvre.Arrondissement));
+        domFiltreAppliquer.innerHTML = `<li>${arronValue}</li><li>${matValue}`;//insertion des filtres choisi au DOM
 
+        let regexArron = new RegExp(arronValue, "gi");
+        let regexMat = new RegExp(matValue, "gi");
+
+        resultat = this.catalogue.getOeuvresAafficher().filter(oeuvre => {
+            if (regexArron.test(oeuvre.Arrondissement) && regexMat.test(oeuvre.Materiaux)) { // valider si chaque i retourne vrai sur le regex test
+                return true;
+            }
+            return false; // si ne trouve pas de correspondance retourne faux
+        });
+        // renvoie le tableaux de resultats à la méthode afficher de la classe catalogue
         this.catalogue.afficher(resultat)
-
-
-        // const filtreApplique = document.querySelector('.filtreAppliqué');
-        // const choixFiltre = document.querySelectorAll('.choixFiltre ul li');
-        // choixFiltre.forEach(item => {
-        //     item.addEventListener('click', () => {
-        //         const filtreSelectionne = item.textContent.trim();
-        //         filtreApplique.textContent = `Filtre appliqué : ${filtreSelectionne}`;
-        //     });
-        // });
-
     }
 
     /**
-     * methode qui retourne l'affichage de toutes les oeuvres
+     * methode qui rétabli l'affichage des oeuvres lorsquon click sur bouton Rétablir
      */
-    retablirFiltre() {
+    retablirFiltre(e) {
+        const arronSelect = document.querySelector(".div__select--arron");
+        const matSelect = document.querySelector(".div__select--mat");
+        arronSelect.getElementsByTagName('option')[0].selected = 'selected';//retrait des filtres sur les options
+        matSelect.getElementsByTagName('option')[0].selected = 'selected';
+
+        let elmLi = document.querySelector(".filtreApplique li");//retrait des filtres un a la fois
+        elmLi.parentNode.removeChild(elmLi);
+
         this.catalogue.afficher();
     }
 }

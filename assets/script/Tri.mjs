@@ -1,74 +1,42 @@
 export default class Tri {
 
-    #aOeuvresMtl = [];
+    #catalogue;
 
-    constructor(domParent) {
-
-        //this.#aOeuvresMtl = aOeuvresMtl;
-        this.domParent = domParent;
-        //   this.genererTri(this.params);
-
-
-
+    constructor(catalogue) {
+        this.#catalogue = catalogue;
     }
-    genererTri(ordre, tri) {
+    genererTri(e) {
+        let radioTri = document.querySelector('input[name="trierPar"]:checked');
+        let radioOrdre = document.querySelector('input[name="ordre"]:checked');
 
-        console.log("allo");
-        // let radioTri = document.querySelector('input[name="trierPar"]:checked');
-        // let radioOrdre = document.querySelector('input[name="ordre"]:checked');
-
-        console.log("par", radioTri, "ordre", radioOrdre);
-        this.params = params;
-
-        if (params.type == "titre") {
-            aOeuvresMtl.Titre.sort(function (a, b) {
-                console.log(aOeuvresMtl.Titre);
-                return a.nom.localeCompare(b.nom, "fr")
+        if (radioTri.value == "titre") {
+            this.#catalogue.getOeuvresAafficher().sort(function (a, b) {
+                return a.Titre.localeCompare(b.Titre, "fr")
             });
         }
-        else if (params.type == "annee") {
+        else if (radioTri.value == "annee") {
+            this.#catalogue.getOeuvresAafficher().sort(function (a, b) {
 
-
-            aOeuvresMtl.DateFinProduction.sort(function (a, b) {
-                if (a.debut === b.debut) {
-                    return a.fin - b.fin;
-                } else {
-                    return a.debut - b.debut;
+                if (a.DateFinProduction == null && b.DateFinProduction == null) {
+                    return 0;
+                } else if (a.DateFinProduction == null) {
+                    return -1;
+                } else if (b.DateFinProduction == null) {
+                    return 1;
                 }
+
+                let timeStamp1 = a.DateFinProduction.substring(7, a.DateFinProduction.length - 7);
+                let timeStamp2 = b.DateFinProduction.substring(7, b.DateFinProduction.length - 7);
+
+                let d1 = new Date(parseInt(timeStamp1));//  utilisation de l'obj Date pour convertir le timeStamp en année 
+                let d2 = new Date(parseInt(timeStamp2));
+                return d1.getFullYear() < d2.getFullYear();
             })
-
-
         }
-
-        if (params.ordre == "DESC") {
-            aOeuvresMtl.reverse();
+        if (radioOrdre.value == "DESC") {
+            this.#catalogue.getOeuvresAafficher().reverse();
         }
-        return mesMaires;
-
-
+        this.#catalogue.afficher();
     }
 }
-// listeMaires(params) {
 
-//     let mesMaires = this.#aMaires;
-
-//     if (params.type == "nom") {
-//         mesMaires.sort(function (a, b) {
-//             return a.nom.localeCompare(b.nom, "fr")
-//         });
-//     }
-//     else if (params.type == "date") {
-//         mesMaires.sort(function (a, b) {
-//             if (a.debut === b.debut) { // si la date de debut est parreil -> comparer la date de fin pour le tri 
-//                 return a.fin - b.fin;
-//             } else {
-//                 return a.debut - b.debut;
-//             }
-//         })
-//     }
-
-//     if (params.ordre == "DESC") {
-//         mesMaires.reverse();
-//     }
-//     return mesMaires;
-// }

@@ -8,8 +8,6 @@ export default class Recherche {
     constructor(catalogue) {
         this.catalogue = catalogue;
     }
-
-
     /**
      * motCle | str | int entrée de lusager
      * resulat | array
@@ -37,21 +35,5 @@ export default class Recherche {
         // renvoie le tableaux de resultats à la méthode afficher de la classe catalogue
         this.catalogue.afficher(resultat)
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }//fin class

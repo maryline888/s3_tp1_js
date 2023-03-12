@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Les oeuvres de Montreal</title>
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
@@ -51,32 +50,41 @@
                 <input type="radio" name="ordre" value="DESC">DESC
             </section>
         </aside>
-        <aside class="filtre">
-            <div class="controle">
-                <header>
-                    <button class="btn-retablir">
-                        Rétablir les filtres
-                    </button>
-                    <!-- <span class="material-icons">tune</span> -->
-                    <div class="filtreApplique">
-                        <p>Filtre appliquer :</p>
+
+        <div class="container">
+            <aside class="filtre">
+                <div class="controle">
+                    <header>
+                        <button class="btn-retablir">
+                            Rétablir les filtres
+                        </button>
+                        <!-- <span class="material-icons">tune</span> -->
+                        <div>
+                            <p>Filtre appliquer :</p>
+                            <ul class="filtreApplique"></ul>
+                        </div>
+                    </header>
+                    <div class="div__select">
+                        <label for="select-arron">Arrondissement</label>
+                        <select class="div__select--arron">
+                            <option value="">-- Sélectionner une option --</option>
+                        </select>
                     </div>
-                </header>
-                <section class="liste-categorie choixFiltre">
-                    <div><span>Arrondissement<span class="material-icons">arrow_drop_down</span></span>
-                        <ul id="ul-arrondissement">
-                        </ul>
+                    <div class="div__select">
+                        <label for="select-mat">Matériaux</label>
+                        <select class="div__select--mat">
+                            <option value="">-- Sélectionner une option --</option>
+                        </select>
                     </div>
-                    <div><span>Nom Collection<span class="material-icons">arrow_drop_down</span></span>
-                        <ul id="ul-Materiaux">
-                        </ul>
-                </section>
-            </div>
-        </aside>
-        <dialog class="dialogue ">
-        </dialog>
-        <section class="catalogue" id="catalogue">
-        </section>
+                    </section>
+                    <button class="btn-filtrer">Filtrer</button>
+                </div>
+            </aside>
+            <dialog class="dialogue ">
+            </dialog>
+            <section class="catalogue" id="catalogue">
+            </section>
+        </div>
     </main>
 </body>
 
