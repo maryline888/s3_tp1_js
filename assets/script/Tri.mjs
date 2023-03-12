@@ -1,10 +1,10 @@
 export default class Tri {
-
     #catalogue;
 
     constructor(catalogue) {
         this.#catalogue = catalogue;
     }
+
     genererTri(e) {
         let radioTri = document.querySelector('input[name="trierPar"]:checked');
         let radioOrdre = document.querySelector('input[name="ordre"]:checked');
@@ -16,21 +16,21 @@ export default class Tri {
         }
         else if (radioTri.value == "annee") {
             this.#catalogue.getOeuvresAafficher().sort(function (a, b) {
-
                 if (a.DateFinProduction == null && b.DateFinProduction == null) {
                     return 0;
                 } else if (a.DateFinProduction == null) {
-                    return -1;
-                } else if (b.DateFinProduction == null) {
                     return 1;
+                } else if (b.DateFinProduction == null) {
+                    return 11;
                 }
 
                 let timeStamp1 = a.DateFinProduction.substring(7, a.DateFinProduction.length - 7);
                 let timeStamp2 = b.DateFinProduction.substring(7, b.DateFinProduction.length - 7);
 
-                let d1 = new Date(parseInt(timeStamp1));//  utilisation de l'obj Date pour convertir le timeStamp en année 
+                let d1 = new Date(parseInt(timeStamp1)); //transforme la str en int pour comparer
                 let d2 = new Date(parseInt(timeStamp2));
-                return d1.getFullYear() < d2.getFullYear();
+
+                return d1.getFullYear() - d2.getFullYear();
             })
         }
         if (radioOrdre.value == "DESC") {
@@ -39,4 +39,3 @@ export default class Tri {
         this.#catalogue.afficher();
     }
 }
-
