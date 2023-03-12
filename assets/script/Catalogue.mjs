@@ -6,9 +6,8 @@ export default class Catalogue {
     constructor(domCatalogue, aOeuvresMtl) {
         this.domCatalogue = domCatalogue;
         this.#aOeuvresMtl = aOeuvresMtl;
+        // oeuvreAafficher est une copie du tab aOeuvresMtl mais permet de pouvoir gere laffichage
         this.#oeuvresAafficher = aOeuvresMtl;
-
-
     }
 
     // afin de donner accès au array Oeuvres Mtl 
@@ -24,20 +23,17 @@ export default class Catalogue {
         return this.#oeuvresAafficher;
     }
 
-
     /**
-     * @param 
-     * @return string chaineHtml
-     * 
+     * @param {array} oeuvres
+     * @return {string }chaineHtml
      * construction de la chaine html qui affiche le catalogue des oeuvres
      * de façon dynamique 
      */
     afficher(oeuvres) {
-
-
+        // si la méthode reçoit une param, alors utilisé ce tableau pour construire le DOM
         if (oeuvres) {
             this.#oeuvresAafficher = oeuvres;
-        } else {
+        } else { // si aucun param, alors retourner le tableau dobj des oeuvres complet
             this.#oeuvresAafficher = this.#aOeuvresMtl;
         }
 

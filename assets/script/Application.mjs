@@ -101,14 +101,14 @@ export default class Application {
         // sectionTri.addEventListener("click", this.genererTri
 
 
-        sectionTri.forEach(radioBtn => {
-            radioBtn.addEventListener("change", this.genererTri)
-            let params = {
-                type: radioTri.value,
-                ordre: radioOrdre.value
-            };
+        // sectionTri.forEach(radioBtn => {
+        //     //     radioBtn.addEventListener("change", this.genererTri)
+        //     //     let params = {
+        //     //         type: radioTri.value,
+        //     //         ordre: radioOrdre.value
+        //     //     };
 
-        });
+        //     // });
     }// fin constructeur
 
     /**
