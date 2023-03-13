@@ -4,19 +4,25 @@ export default class Filtre {
         this.catalogue = catalogue;
         this.rechercheMotCle;
     }
-
     /**
      * affiche le resultat du catalogue lors que le filtre arrondissement a ete selectionné
      */
     appliquerFiltre(e) {
         let resultat = [];
+        let liste = "";
         const arronSelect = document.querySelector(".div__select--arron");
         const matSelect = document.querySelector(".div__select--mat");
         const domFiltreAppliquer = document.querySelector(".filtreApplique");
         const arronValue = arronSelect.options[arronSelect.selectedIndex].value;
         const matValue = matSelect.options[matSelect.selectedIndex].value;
-
-        domFiltreAppliquer.innerHTML = `<li>${arronValue}</li><li>${matValue}`;//insertion des filtres choisi au DOM
+        //si il y a une sélection
+        if (arronValue) {
+            liste = `<li>${arronValue}</li>`;
+        }
+        if (matValue) {
+            liste += `<li>${matValue}`;
+        }
+        domFiltreAppliquer.innerHTML = liste;//insertion des filtres sélectionné au DOM
 
         let regexArron = new RegExp(arronValue, "gi");
         let regexMat = new RegExp(matValue, "gi");
